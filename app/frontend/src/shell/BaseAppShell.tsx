@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { observer } from 'mobx-react-lite';
+import { observer } from "mobx-react-lite";
 import { uiStore } from "@/stores";
 import { Backdrop } from "@/shell/sidebar/Backdrop";
 
@@ -7,6 +7,8 @@ interface BaseAppShellProps {
   sidebar: ReactNode;
   header: ReactNode;
   children: ReactNode;
+  /** Cuando es true, el contenido ocupa todo el viewport restante bajo la cabecera sin márgenes externos. */
+  fullBleed?: boolean;
 }
 
 /**
@@ -16,6 +18,7 @@ export const BaseAppShell: React.FC<BaseAppShellProps> = observer(({
   sidebar,
   header,
   children,
+  fullBleed = false,
 }) => {
   return (
     <div className="min-h-screen lg:flex">
@@ -23,11 +26,17 @@ export const BaseAppShell: React.FC<BaseAppShellProps> = observer(({
       <Backdrop />
       <div
         className={`min-w-0 flex-1 transition-all duration-300 ease-in-out ${
-          uiStore.isSidebarVisible ? "lg:ml-[224px]" : "lg:ml-[76px]"
+          uiStore.isSidebarVisible ? "lg:ml-[14rem]" : "lg:ml-[4.75rem]"
         }`}
       >
         {header}
-        <main className="p-4 mx-auto max-w-[1536px] md:p-6">
+        <main
+          className={
+            fullBleed
+              ? "h-[calc(100dvh-4rem)] overflow-hidden p-0"
+              : "mx-auto max-w-[96rem] p-4 md:p-6"
+          }
+        >
           {children}
         </main>
       </div>

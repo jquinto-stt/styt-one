@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: styt-one-backend
+  namespace: styt-one
+  labels:
+    app: styt-one-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: styt-one-backend
+  template:
+    metadata:
+      labels:
+        app: styt-one-backend
+    spec:
+      containers:
+        - name: backend
+          image: crstytonedev2026.azurecr.io/styt-one-backend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3001
+              name: http
+          envFrom:
+            - configMapRef:
+                name: styt-one-config
+            - secretRef:
+                name: styt-one-secrets
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3001
+            initialDelaySeconds: 8
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3001
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 150m
+              memory: 256Mi
+            limits:
+              cpu: 750m
+              memory: 768Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: styt-one-backend
+  namespace: styt-one
+spec:
+  type: ClusterIP
+  selector:
+    app: styt-one-backend
+  ports:
+    - port: 3001
+      targetPort: 3001
+      name: http

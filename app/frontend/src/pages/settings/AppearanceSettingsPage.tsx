@@ -12,7 +12,6 @@ const themes = [
 
 /** Selección de tema compartida con la cabecera. */
 export const AppearanceSettingsPage = observer(function AppearanceSettingsPage() {
-
   return (
     <>
       <Panel title="Tema">
@@ -41,8 +40,16 @@ export const AppearanceSettingsPage = observer(function AppearanceSettingsPage()
             <p className="mb-1.5 text-theme-sm text-gray-700 dark:text-gray-400">Idioma de la interfaz</p>
             <Select options={[{ value: "es", label: "Español" }]} defaultValue="es" onChange={() => {}} />
           </div>
-          <Switch label="Reducir animaciones" checked={uiStore.reduceMotion} onChange={(value) => uiStore.setReduceMotion(value)} />
-          <Switch label="Barra lateral expandida al iniciar" defaultChecked />
+          <Switch
+            label="Reducir animaciones"
+            checked={uiStore.reduceMotion}
+            onChange={(value) => uiStore.setReduceMotion(value)}
+          />
+          <Switch
+            label="Barra lateral expandida al iniciar"
+            checked={uiStore.sidebarExpanded}
+            onChange={(value) => uiStore.setSidebarExpanded(value)}
+          />
         </div>
       </Panel>
     </>

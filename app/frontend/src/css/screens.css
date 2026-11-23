@@ -13,12 +13,15 @@
   -webkit-text-fill-color: transparent;
 }
 .composer {
-  background: linear-gradient(#1c1c26, #1c1c26) padding-box,
-    linear-gradient(110deg, #434653, #39394b 60%, #5d6984 84%, #375da0) border-box;
-  border-color: transparent;
-  box-shadow: 0 12px 36px #0002;
+  background: rgba(25, 27, 36, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
 }
-.composer:focus-within { outline: 2px solid var(--color-brand-300); outline-offset: 2px; }
+.composer:focus-within {
+  border-color: rgba(56, 189, 248, 0.55);
+  box-shadow: 0 0 0 3px rgba(0, 138, 255, 0.16), 0 12px 32px rgba(0, 0, 0, 0.28);
+}
 .connector-mark { background: var(--color-brand-700); }
 :nth-child(3n + 2) > div > .connector-mark, li:nth-child(3n + 2) > .connector-mark { background: #1e56a0; }
 :nth-child(3n) > div > .connector-mark, li:nth-child(3n) > .connector-mark { background: var(--color-brand-900); }
@@ -48,39 +51,296 @@ dialog.styt-dialog {
 }
 .styt-dialog::backdrop { background: #090a10a6; backdrop-filter: blur(5px); }
 .help-cover { background: radial-gradient(ellipse at center, #224a87, transparent 70%), linear-gradient(135deg, #102041, #173466); }
-.assistant-signal {
+/* ═══════════════════════════════════════════════════════════════════════════
+ * ST&T ATLAS — Sistema de movimiento, medallón orbital y esqueletos
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+.atlas-orb-halo {
+  background: radial-gradient(
+    circle,
+    rgba(0, 138, 255, 0.34) 0%,
+    rgba(0, 71, 255, 0.16) 44%,
+    rgba(56, 189, 248, 0.04) 68%,
+    transparent 74%
+  );
+  filter: blur(16px);
+}
+.dark .atlas-orb-halo {
+  background: radial-gradient(
+    circle,
+    rgba(56, 189, 248, 0.34) 0%,
+    rgba(0, 138, 255, 0.28) 38%,
+    rgba(0, 71, 255, 0.14) 62%,
+    transparent 76%
+  );
+  filter: blur(20px);
+}
+
+.atlas-orb-ring {
+  background: conic-gradient(
+    from 140deg,
+    rgba(56, 189, 248, 0.95) 0deg,
+    rgba(0, 138, 255, 0.9) 80deg,
+    rgba(0, 71, 255, 0.35) 180deg,
+    rgba(96, 165, 250, 0.85) 280deg,
+    rgba(56, 189, 248, 0.95) 360deg
+  );
+}
+:root:not(.dark) .atlas-orb-ring {
+  background: conic-gradient(
+    from 140deg,
+    rgba(0, 138, 255, 0.78) 0deg,
+    rgba(0, 71, 255, 0.65) 110deg,
+    rgba(147, 197, 253, 0.45) 210deg,
+    rgba(56, 189, 248, 0.75) 310deg,
+    rgba(0, 138, 255, 0.78) 360deg
+  );
+}
+
+.atlas-orb-core {
+  background: radial-gradient(circle at 32% 24%, #ffffff 0%, #f1f7ff 62%, #dbeafe 100%);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.9),
+    0 10px 28px rgba(0, 71, 255, 0.16);
+}
+.dark .atlas-orb-core {
+  background: radial-gradient(circle at 32% 24%, #1d3258 0%, #0e192e 58%, #080f1d 100%);
+  box-shadow:
+    inset 0 1px 2px rgba(124, 212, 253, 0.22),
+    inset 0 -8px 18px rgba(0, 71, 255, 0.2),
+    0 12px 32px rgba(0, 71, 255, 0.32);
+}
+
+.atlas-orb-specular {
+  background: radial-gradient(
+    circle at 30% 18%,
+    rgba(255, 255, 255, 0.36) 0%,
+    rgba(255, 255, 255, 0.08) 32%,
+    transparent 58%
+  );
+}
+.dark .atlas-orb-specular {
+  background: radial-gradient(
+    circle at 30% 18%,
+    rgba(186, 230, 253, 0.2) 0%,
+    rgba(56, 189, 248, 0.05) 34%,
+    transparent 60%
+  );
+}
+
+.atlas-ripple {
+  border: 1.5px solid rgba(56, 189, 248, 0.55);
+}
+:root:not(.dark) .atlas-ripple {
+  border-color: rgba(0, 138, 255, 0.45);
+}
+
+.atlas-progress-beam {
+  background: linear-gradient(90deg, #0047ff 0%, #008aff 55%, #38bdf8 100%);
+}
+
+.atlas-skeleton {
   position: relative;
-  display: grid;
-  place-items: center;
-  width: min(100%, 20rem);
-  aspect-ratio: 320 / 88;
-  color: #9fb6d5;
+  overflow: hidden;
+  background: linear-gradient(
+    110deg,
+    rgba(226, 232, 240, 0.72) 25%,
+    rgba(241, 245, 249, 0.96) 45%,
+    rgba(226, 232, 240, 0.72) 65%
+  );
+  background-size: 220% 100%;
 }
-.dark .assistant-signal { color: #344358; }
-.assistant-signal > svg { width: 100%; height: auto; }
-.signal-core {
-  position: absolute;
-  display: grid;
-  place-items: center;
-  width: 21%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 15%, #fff, #e5efff);
-  border: 1px solid #c0d3f0;
-  box-shadow: 0 0 30px #2470ff20;
+.dark .atlas-skeleton {
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(124, 212, 253, 0.13) 46%,
+    rgba(255, 255, 255, 0.05) 68%
+  );
+  background-size: 220% 100%;
 }
-.dark .signal-core {
-  background: radial-gradient(circle at 35% 15%, #25324b, #101822);
-  border-color: #394b68;
+
+.atlas-spin,
+.atlas-spin-reverse {
+  transform-box: view-box;
+  transform-origin: 80px 80px;
 }
-.signal-core img { width: 64%; height: auto; }
-.signal-pulse { stroke-dasharray: 12 100; stroke-dashoffset: -48; }
+
+.atlas-twinkle {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.stt-chevron-left,
+.stt-chevron-right {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.stt-sheen {
+  opacity: 0;
+  transform: translateX(-160px);
+}
+
+.stt-trace {
+  stroke-dasharray: 22 78;
+  stroke-dashoffset: 0;
+  opacity: 0.75;
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  :root:not(.reduce-motion) .signal-pulse { animation: signal-travel 2.2s ease-out 2 both; }
-  @keyframes signal-travel {
-    from { stroke-dashoffset: 12; opacity: 0; }
-    22% { opacity: 1; }
-    to { stroke-dashoffset: -98; opacity: 0; }
+  :root:not(.reduce-motion) .atlas-spin {
+    animation: atlas-spin 18s linear infinite;
+  }
+  :root:not(.reduce-motion) .atlas-spin-reverse {
+    animation: atlas-spin-reverse 24s linear infinite;
+  }
+  :root:not(.reduce-motion) .atlas-ring-spin {
+    animation: atlas-spin 12s linear infinite;
+  }
+  :root:not(.reduce-motion) .atlas-spin.atlas-spin-medium {
+    animation-duration: 7.5s;
+  }
+  :root:not(.reduce-motion) .atlas-spin-reverse.atlas-spin-medium {
+    animation-duration: 10s;
+  }
+  :root:not(.reduce-motion) .atlas-spin.atlas-spin-fast {
+    animation-duration: 4.2s;
+  }
+  :root:not(.reduce-motion) .atlas-spin-reverse.atlas-spin-fast {
+    animation-duration: 5.6s;
+  }
+  :root:not(.reduce-motion) .atlas-breathe {
+    animation: atlas-breathe 4.4s ease-in-out infinite;
+  }
+  :root:not(.reduce-motion) .atlas-twinkle {
+    animation: atlas-twinkle 3.8s ease-in-out infinite;
+  }
+  :root:not(.reduce-motion) .atlas-ripple-1 {
+    animation: atlas-ripple 2.1s cubic-bezier(0.2, 0.7, 0.3, 1) infinite;
+  }
+  :root:not(.reduce-motion) .atlas-ripple-2 {
+    animation: atlas-ripple 2.1s cubic-bezier(0.2, 0.7, 0.3, 1) 1.05s infinite;
+  }
+  :root:not(.reduce-motion) .atlas-progress-beam {
+    animation: atlas-progress-sweep 1.5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  }
+  :root:not(.reduce-motion) .atlas-skeleton {
+    animation: atlas-shimmer 1.65s ease-in-out infinite;
+  }
+  :root:not(.reduce-motion) .atlas-fade-up {
+    animation: atlas-fade-up 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  :root:not(.reduce-motion) .atlas-dot-1 {
+    animation: atlas-dot-pulse 1.3s ease-in-out 0s infinite;
+  }
+  :root:not(.reduce-motion) .atlas-dot-2 {
+    animation: atlas-dot-pulse 1.3s ease-in-out 0.22s infinite;
+  }
+  :root:not(.reduce-motion) .atlas-dot-3 {
+    animation: atlas-dot-pulse 1.3s ease-in-out 0.44s infinite;
+  }
+
+  /* Coreografía de flechas `< >` en estado idle */
+  :root:not(.reduce-motion) .stt-brand-vector[data-mode="idle"] .stt-sheen {
+    opacity: 1;
+    animation: atlas-sheen 5.6s ease-in-out infinite;
+  }
+
+  /* Coreografía de flechas `< >` en estado thinking */
+  :root:not(.reduce-motion) .stt-brand-vector[data-mode="thinking"] .stt-chevron-left {
+    animation: atlas-chevron-left 1.7s cubic-bezier(0.42, 0, 0.22, 1) infinite;
+  }
+  :root:not(.reduce-motion) .stt-brand-vector[data-mode="thinking"] .stt-chevron-right {
+    animation: atlas-chevron-right 1.7s cubic-bezier(0.42, 0, 0.22, 1) infinite;
+  }
+  :root:not(.reduce-motion) .stt-brand-vector[data-mode="thinking"] .stt-sheen {
+    opacity: 1;
+    animation: atlas-sheen 1.7s ease-in-out infinite;
+  }
+  :root:not(.reduce-motion) .stt-brand-vector[data-mode="thinking"] .stt-trace {
+    animation: atlas-trace 1.7s linear infinite;
+  }
+  :root:not(.reduce-motion) .stt-brand-vector[data-mode="thinking"] .stt-trace-delayed {
+    animation-delay: 0.85s;
+  }
+
+  /* Coreografía en modo voz (escuchando / hablando) */
+  :root:not(.reduce-motion) .stt-brand-vector[data-mode="listening"] .stt-sheen,
+  :root:not(.reduce-motion) .stt-brand-vector[data-mode="speaking"] .stt-sheen {
+    opacity: 1;
+    animation: atlas-sheen 2.4s ease-in-out infinite;
+  }
+  :root:not(.reduce-motion) .stt-brand-vector[data-mode="speaking"] .stt-chevron-left {
+    animation: atlas-chevron-left-soft 1.4s ease-in-out infinite;
+  }
+  :root:not(.reduce-motion) .stt-brand-vector[data-mode="speaking"] .stt-chevron-right {
+    animation: atlas-chevron-right-soft 1.4s ease-in-out infinite;
+  }
+
+  @keyframes atlas-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes atlas-spin-reverse {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+  }
+  @keyframes atlas-breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.028); }
+  }
+  @keyframes atlas-twinkle {
+    0%, 100% { opacity: 0.18; transform: scale(0.85); }
+    50% { opacity: 0.92; transform: scale(1.18); }
+  }
+  @keyframes atlas-ripple {
+    0% { transform: scale(0.84); opacity: 0.65; }
+    100% { transform: scale(1.36); opacity: 0; }
+  }
+  @keyframes atlas-chevron-left {
+    0%, 100% { transform: translate(0, 0); }
+    42% { transform: translate(-11px, -3px); }
+    64% { transform: translate(3px, 1px); }
+  }
+  @keyframes atlas-chevron-right {
+    0%, 100% { transform: translate(0, 0); }
+    42% { transform: translate(11px, 3px); }
+    64% { transform: translate(-3px, -1px); }
+  }
+  @keyframes atlas-chevron-left-soft {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-5px, 0); }
+  }
+  @keyframes atlas-chevron-right-soft {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(5px, 0); }
+  }
+  @keyframes atlas-sheen {
+    0%, 20% { transform: translateX(-220px); opacity: 0; }
+    35% { opacity: 0.95; }
+    65% { transform: translateX(240px); opacity: 0; }
+    100% { transform: translateX(240px); opacity: 0; }
+  }
+  @keyframes atlas-trace {
+    from { stroke-dashoffset: 100; }
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes atlas-progress-sweep {
+    0% { transform: translateX(-110%); }
+    100% { transform: translateX(340%); }
+  }
+  @keyframes atlas-shimmer {
+    0% { background-position: 100% 50%; }
+    100% { background-position: -100% 50%; }
+  }
+  @keyframes atlas-fade-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes atlas-dot-pulse {
+    0%, 100% { opacity: 0.35; transform: scale(0.85); }
+    50% { opacity: 1; transform: scale(1.15); }
   }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -98,9 +358,13 @@ dialog.styt-dialog {
   background: radial-gradient(ellipse at top right, #c9ddff, transparent 52%), #f6f9ff;
 }
 :root:not(.dark) .composer {
-  background: linear-gradient(white, #fbfdff) padding-box,
-    linear-gradient(105deg, #bdcbd5, #9ab9e8) border-box;
-  box-shadow: 0 8px 24px #192e4110;
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.12);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+:root:not(.dark) .composer:focus-within {
+  border-color: rgba(0, 138, 255, 0.65);
+  box-shadow: 0 0 0 3px rgba(0, 138, 255, 0.14), 0 8px 24px rgba(0, 71, 255, 0.08);
 }
 :root:not(.dark) .assistant-accent { background-image: linear-gradient(95deg, var(--color-brand-800), var(--color-brand-700), var(--color-brand-600)); }
 :root:not(.dark) .mobile-dock { background: #fffffffa; border-color: #d6dfe3; }

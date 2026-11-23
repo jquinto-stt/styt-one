@@ -1,58 +1,113 @@
-import { useCurrentUser } from "@/app/DemoSession";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router";
+import { Alert } from "@/elements/ui/alert";
 import { Badge } from "@/elements/ui/badge";
 import { Button } from "@/elements/ui/button";
 import { Table, TableHeader, TableBody, TableRow, TableCell } from "@/elements/ui/table";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Panel } from "@/components/layout/Panel";
-import { demoProjects } from "@/data/demo";
+import { PageLoadingState } from "@/components/feedback/BrandLoader";
+import { getErrorMessage, getProjects, type ProjectRecord } from "@/services/api";
 
-/** Catálogo de proyectos (MVP-05): solo se puede abrir lo que el usuario tiene autorizado. */
+/** Catálogo de proyectos (MVP-05): el servidor devuelve únicamente los proyectos autorizados. */
 export function ProjectsPage() {
-  const currentUser = useCurrentUser();
+  const [projects, setProjects] = useState<ProjectRecord[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const loadProjects = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { projects: loaded } = await getProjects();
+      setProjects(loaded);
+    } catch (err) {
+      setError(getErrorMessage(err, "No fue posible cargar el catálogo de proyectos."));
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    void loadProjects();
+  }, [loadProjects]);
+
   return (
     <>
       <PageHeader title="Proyectos" description="Catálogo con responsable, estado y fecha documentada." />
-      <Panel bodyClassName="p-0">
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader className="border-b border-gray-200 dark:border-gray-800">
-              <TableRow>
-                {["Proyecto", "Responsable", "Estado", "Última actualización documentada", "Acceso"].map((h) => (
-                  <TableCell key={h} header className="px-5 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400">
-                    {h}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody className="divide-y divide-gray-200 dark:divide-gray-800">
-              {demoProjects.map((p) => {
-                const allowed = p.members.includes(currentUser.name);
-                return (
-                  <TableRow key={p.id}>
-                    <TableCell className="px-5 py-4">
-                      <p className="text-theme-sm font-medium text-gray-800 dark:text-white/90">{p.name}</p>
-                      <p className="text-theme-xs text-gray-500 dark:text-gray-400">{p.description}</p>
-                    </TableCell>
-                    <TableCell className="whitespace-nowrap px-5 py-4 text-theme-sm text-gray-600 dark:text-gray-300">{p.owner}</TableCell>
-                    <TableCell className="whitespace-nowrap px-5 py-4"><Badge size="sm" color="primary">{p.status}</Badge></TableCell>
-                    <TableCell className="px-5 py-4 text-theme-sm text-gray-600 dark:text-gray-300">
-                      {p.updated ?? <span className="text-warning-500">Sin documentar</span>}
-                    </TableCell>
-                    <TableCell className="whitespace-nowrap px-5 py-4">
-                      {allowed ? (
-                        <Link to={`/proyectos/${p.id}`}><Button size="sm" variant="outline">Ver ficha</Button></Link>
-                      ) : (
-                        <Link to="/sin-acceso"><Button size="sm" variant="ghost">Sin acceso</Button></Link>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+
+      {error && (
+        <div className="mb-6 space-y-3">
+          <Alert variant="error" title="No se pudieron cargar los proyectos" message={error} />
+          <Button size="sm" variant="outline" onClick={() => void loadProjects()}>
+            Reintentar
+          </Button>
         </div>
-      </Panel>
+      )}
+
+      {loading ? (
+        <PageLoadingState variant="cards" label="Cargando tus proyectos autorizados…" />
+      ) : (
+        <Panel bodyClassName="p-0">
+          {projects.length === 0 ? (
+            <p className="px-5 py-6 text-theme-sm text-gray-400">
+              No tienes proyectos autorizados para consultar en este momento.
+            </p>
+          ) : (
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader className="border-b border-gray-200 dark:border-gray-800">
+                  <TableRow>
+                    {[
+                      "Proyecto",
+                      "Responsable",
+                      "Estado",
+                      "Miembros",
+                      "Última actualización documentada",
+                      "Acceso",
+                    ].map((h) => (
+                      <TableCell
+                        key={h}
+                        header
+                        className="px-5 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400"
+                      >
+                        {h}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHeader>
+                <TableBody className="divide-y divide-gray-200 dark:divide-gray-800">
+                  {projects.map((p) => (
+                    <TableRow key={p.id}>
+                      <TableCell className="px-5 py-4">
+                        <p className="text-theme-sm font-medium text-gray-800 dark:text-white/90">{p.name}</p>
+                        <p className="text-theme-xs text-gray-500 dark:text-gray-400">{p.description}</p>
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap px-5 py-4 text-theme-sm text-gray-600 dark:text-gray-300">
+                        {p.owner}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap px-5 py-4">
+                        <Badge size="sm" color="primary">{p.status}</Badge>
+                      </TableCell>
+                      <TableCell className="px-5 py-4 text-theme-sm text-gray-600 dark:text-gray-300">
+                        {p.members.length > 0 ? p.members.join(", ") : "Sin miembros asignados"}
+                      </TableCell>
+                      <TableCell className="px-5 py-4 text-theme-sm text-gray-600 dark:text-gray-300">
+                        {p.updated ?? <span className="text-warning-500">Sin documentar</span>}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap px-5 py-4">
+                        <Link to={`/proyectos/${p.id}`}>
+                          <Button size="sm" variant="outline">Ver ficha</Button>
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
+        </Panel>
+      )}
     </>
   );
 }

@@ -125,6 +125,11 @@ class UIStore {
     }
   }
 
+  setSidebarExpanded(expanded: boolean): void {
+    this.sidebarExpanded = expanded;
+    this.saveToStorage();
+  }
+
   setSidebarHovered(hovered: boolean): void {
     this.sidebarHovered = hovered;
   }

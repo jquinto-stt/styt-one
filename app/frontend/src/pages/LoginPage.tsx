@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { ThemeToggleButton } from "@/shell";
 import { useDemoSession } from "@/app/DemoSession";
@@ -10,13 +10,53 @@ import { Alert } from "@/elements/ui/alert";
 import { Logo } from "@/components/brand/Logo";
 import { DemoNotice } from "@/components/layout/DemoNotice";
 import { demoUsers } from "@/data/demo";
+import { getDemoAccounts, type DemoUser } from "@/services/api";
 
-/** Acceso local con una de las cuentas ficticias de la demo. */
+/** Acceso con cuentas de demostración autenticadas contra el backend. */
 export function LoginPage() {
   const navigate = useNavigate();
   const { signIn } = useDemoSession();
+  const [accounts, setAccounts] = useState<DemoUser[]>(demoUsers);
+  const [accountsVersion, setAccountsVersion] = useState(0);
   const [account, setAccount] = useState(demoUsers[0].login);
-  const [showError, setShowError] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    getDemoAccounts()
+      .then(({ accounts: loaded }) => {
+        if (!active || loaded.length === 0) return;
+        setAccounts(loaded);
+        setAccount((current) =>
+          loaded.some((u) => u.login === current) ? current : loaded[0].login,
+        );
+        setAccountsVersion((v) => v + 1);
+      })
+      .catch(() => {
+        // Keep fallback accounts if demo-accounts endpoint is momentarily unreachable.
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (submitting) return;
+    setErrorMessage(null);
+    setSubmitting(true);
+
+    const password = String(new FormData(e.currentTarget).get("password") ?? "");
+    const result = await signIn(account, password);
+    setSubmitting(false);
+
+    if (result.ok) {
+      navigate("/", { replace: true });
+    } else {
+      setErrorMessage(result.error ?? "La cuenta o la contraseña no son correctas.");
+    }
+  }
 
   return (
     <main className="public-access relative grid min-h-screen place-items-center overflow-hidden bg-gray-950 px-4 py-20">
@@ -35,37 +75,45 @@ export function LoginPage() {
           <p className="mt-1 text-theme-sm text-gray-600 dark:text-gray-400">Ingresa con tu cuenta de demostración.</p>
         </div>
 
-        <form
-          className="space-y-5"
-          onSubmit={(e) => {
-            e.preventDefault();
-            const password = String(new FormData(e.currentTarget).get("password") ?? "");
-            if (signIn(account, password)) navigate("/", { replace: true });
-            else setShowError(true);
-          }}
-        >
+        <form className="space-y-5" onSubmit={handleSubmit}>
           <div>
             <Label>Cuenta</Label>
             <Select
-              options={demoUsers.map((u) => ({ value: u.login, label: `${u.name} · ${u.role}` }))}
+              key={accountsVersion}
+              options={accounts.map((u) => ({ value: u.login, label: `${u.name} · ${u.role}` }))}
               defaultValue={account}
-              onChange={setAccount}
+              onChange={(val) => {
+                setAccount(val);
+                if (errorMessage) setErrorMessage(null);
+              }}
+              disabled={submitting}
             />
           </div>
           <div>
             <div className="mb-1.5 flex items-center justify-between">
               <Label htmlFor="password" className="mb-0">Contraseña</Label>
-
             </div>
-            <Input id="password" name="password" required type="password" placeholder="••••••••" autoComplete="current-password" />
+            <Input
+              id="password"
+              name="password"
+              required
+              type="password"
+              placeholder="••••••••"
+              autoComplete="current-password"
+              disabled={submitting}
+            />
             <p className="mt-1.5 text-theme-xs text-gray-600 dark:text-gray-400">
               Contraseña de demo: <code className="rounded bg-white/10 px-1">Demo-One-2026</code>
             </p>
           </div>
 
-          {showError && <Alert variant="error" title="No pudimos iniciar sesión" message="La cuenta o la contraseña no son correctas." />}
+          {errorMessage && (
+            <Alert variant="error" title="No pudimos iniciar sesión" message={errorMessage} />
+          )}
 
-          <Button type="submit" className="w-full">Iniciar sesión</Button>
+          <Button type="submit" className="w-full" loading={submitting}>
+            {submitting ? "Iniciando sesión…" : "Iniciar sesión"}
+          </Button>
         </form>
 
         <div className="mt-6 flex flex-col items-center gap-3 text-center text-theme-xs text-gray-600 dark:text-gray-400">

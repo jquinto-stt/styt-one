@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: styt-one-config
+  namespace: styt-one
+data:
+  PORT: "3001"
+  NODE_ENV: "production"
+  COOKIE_SECURE: "true"
+  SESSION_TTL_HOURS: "8"
+  AZURE_OPENAI_API_VERSION: "2025-03-01-preview"
+  AZURE_OPENAI_CHAT_DEPLOYMENT: "gpt-5.5"
+  AZURE_OPENAI_REASONING_EFFORT: "none"
+  AZURE_OPENAI_EMBEDDING_DEPLOYMENT: "text-embedding-3-small"
+  AZURE_OPENAI_STT_DEPLOYMENT: "gpt-4o-mini-transcribe"
+  AZURE_OPENAI_TTS_DEPLOYMENT: "gpt-4o-mini-tts"
+  AZURE_OPENAI_REALTIME_DEPLOYMENT: "gpt-realtime-2.1"
+  AZURE_SPEECH_REGION: "eastus2"

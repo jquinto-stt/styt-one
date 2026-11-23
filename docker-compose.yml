@@ -1,0 +1,46 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: styt-one-db
+    environment:
+      POSTGRES_USER: styt_one
+      POSTGRES_PASSWORD: styt_one_dev
+      POSTGRES_DB: styt_one
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - styt_one_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U styt_one -d styt_one"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./app/backend
+    container_name: styt-one-backend
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - path: ./app/backend/.env
+        required: false
+    environment:
+      PORT: "3001"
+      DATABASE_URL: "postgresql://styt_one:styt_one_dev@db:5432/styt_one"
+    ports:
+      - "127.0.0.1:3001:3001"
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "node -e \"fetch('http://localhost:3001/api/health').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))\"",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+volumes:
+  styt_one_pgdata:

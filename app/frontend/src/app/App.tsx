@@ -2,6 +2,7 @@ import { useDemoSession } from "@/app/DemoSession";
 import { ThemeToggleButton } from "@/shell";
 import { Routes, Route, Navigate, Link } from "react-router";
 import { AppShell } from "@/app/AppShell";
+import { BrandSplashScreen } from "@/components/feedback/BrandLoader";
 
 import { LandingPage } from "@/pages/LandingPage";
 import { LoginPage } from "@/pages/LoginPage";
@@ -26,18 +27,28 @@ import { ArchivedChatsSettingsPage } from "@/pages/settings/ArchivedChatsSetting
 import { ConnectedAppsSettingsPage } from "@/pages/settings/ConnectedAppsSettingsPage";
 
 /**
- * Rutas de ST&T One (pantallas visuales con datos ficticios).
+ * Rutas de ST&T One conectadas al backend real con sesión HttpOnly.
  *
  * - Con shell (barra lateral + header): el asistente y sus secciones.
  * - Standalone: bienvenida, acceso y páginas de error.
  */
 export default function App() {
-  const { user } = useDemoSession();
+  const { user, loading } = useDemoSession();
+
+  if (loading) {
+    return (
+      <BrandSplashScreen
+        fullscreen
+        subtitle="Verificando tu sesión segura en ST&T One…"
+      />
+    );
+  }
+
   return (
     <Routes>
       <Route element={user ? <AppShell /> : <Navigate to="/bienvenida" replace />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/conversacion" element={<ConversationPage />} />
+        <Route path="/conversacion/:id?" element={<ConversationPage />} />
         <Route path="/perfil" element={<ProfilePage />} />
         <Route path="/proyectos" element={<ProjectsPage />} />
         <Route path="/proyectos/:id" element={<ProjectDetailPage />} />
@@ -46,7 +57,20 @@ export default function App() {
         <Route path="/carpetas" element={<FoldersPage />} />
         <Route path="/integraciones" element={<IntegrationsPage />} />
         {user && <Route path="/ayuda" element={<HelpPage />} />}
-        <Route path="/admin" element={<AdminPage />} />
+        <Route
+          path="/admin"
+          element={
+            user?.role === "Administrador" ? (
+              <AdminPage />
+            ) : (
+              <ErrorPage
+                code="403"
+                title="Acceso restringido"
+                message="La sección de administración está disponible únicamente para administradores autorizados."
+              />
+            )
+          }
+        />
         <Route path="/ajustes" element={<SettingsLayout />}>
           <Route index element={<Navigate to="cuenta" replace />} />
           <Route path="cuenta" element={<AccountSettingsPage />} />

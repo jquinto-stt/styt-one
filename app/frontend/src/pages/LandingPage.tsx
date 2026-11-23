@@ -30,7 +30,7 @@ export function LandingPage() {
           <span className="text-brand-800 dark:text-brand-200">con respuestas que puedes verificar</span>
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-base text-gray-600 dark:text-gray-400">
-          ST&amp;T One reúne en un solo chat las políticas de la empresa, tu información y el contexto de tus proyectos.
+          ST&amp;T One integra a <strong className="font-medium text-gray-900 dark:text-white">ST&amp;T ATLAS</strong> para consultar políticas de la empresa, tu información y el contexto de tus proyectos en un solo chat.
         </p>
         <div className="mt-8 flex justify-center gap-3">
           <Link to="/acceso"><Button size="lg">Entrar a la demo</Button></Link>

@@ -1,6 +1,6 @@
 import { useCurrentUser, useDemoSession } from "@/app/DemoSession";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Avatar } from "@/elements/ui/avatar";
 import { ChevronDownIcon, UserCircleIcon, LockIcon } from "@/icons";
 
@@ -8,13 +8,15 @@ import { ThemeToggleButton } from "@/shell/header/theme-toggle-button";
 import { DemoNotice } from "@/components/layout/DemoNotice";
 
 const item =
-  "flex items-center gap-3 rounded-lg px-3 py-2 text-theme-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5";
+  "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-theme-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5";
 
-/** Menú de cuenta del header: nombre, rol, accesos y «Cerrar sesión» (solo visual). */
+/** Menú de cuenta del header: nombre, rol, accesos y «Cerrar sesión». */
 export function UserMenu({ compact = false, alignLeft = false, upward = false }: { compact?: boolean; alignLeft?: boolean; upward?: boolean }) {
   const currentUser = useCurrentUser();
   const { signOut } = useDemoSession();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -24,6 +26,14 @@ export function UserMenu({ compact = false, alignLeft = false, upward = false }:
     document.addEventListener("mousedown", onClick);
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
+
+  async function handleSignOut() {
+    if (signingOut) return;
+    setSigningOut(true);
+    setOpen(false);
+    await signOut();
+    navigate("/bienvenida", { replace: true });
+  }
 
   return (
     <div className="relative" ref={ref}>
@@ -51,9 +61,14 @@ export function UserMenu({ compact = false, alignLeft = false, upward = false }:
             <li><Link to="/perfil" className={item} onClick={() => setOpen(false)}><UserCircleIcon className="size-5" />Mi perfil</Link></li>
             <li><Link to="/ajustes/cuenta" className={item} onClick={() => setOpen(false)}><LockIcon className="size-5" />Ajustes</Link></li>
           </ul>
-          <Link replace to="/bienvenida" className={`${item} mt-2`} onClick={signOut}>
-            Cerrar sesión
-          </Link>
+          <button
+            type="button"
+            disabled={signingOut}
+            className={`${item} mt-2`}
+            onClick={handleSignOut}
+          >
+            {signingOut ? "Cerrando sesión…" : "Cerrar sesión"}
+          </button>
         </div>
       )}
     </div>

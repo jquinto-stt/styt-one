@@ -1,5 +1,6 @@
 import { useLocation } from "react-router";
 import { BaseAppSidebar, MenuSectionHeader, MenuItem } from "@/shell";
+import { useDemoSession } from "@/app/DemoSession";
 import {
   ChatIcon,
   UserCircleIcon,
@@ -34,14 +35,19 @@ const supportItems = [
 const SidebarContent = () => {
   // useLocation hace que el menú se re-renderice al navegar y marque el ítem activo.
   const { pathname } = useLocation();
+  const { user } = useDemoSession();
+  const isAdmin = user?.role === "Administrador";
+
   const isActive = (path: string) =>
-    path === "/" ? pathname === "/" || pathname === "/conversacion" : pathname.startsWith(path.replace(/\/cuenta$/, ""));
+    path === "/"
+      ? pathname === "/" || pathname.startsWith("/conversacion")
+      : pathname.startsWith(path.replace(/\/cuenta$/, ""));
 
   return (
     <nav className="mb-6">
       <div className="flex flex-col gap-6">
         <div>
-          <MenuSectionHeader title="Asistente" />
+          <MenuSectionHeader title="ST&T ATLAS" />
           <ul className="flex flex-col gap-1">
             {mainItems.map((i) => (
               <MenuItem key={i.path} icon={i.icon} name={i.name} path={i.path} isActive={isActive} />
@@ -54,9 +60,9 @@ const SidebarContent = () => {
             {supportItems.map((i) => (
               <MenuItem key={i.path} icon={i.icon} name={i.name} path={i.path} isActive={isActive} />
             ))}
-            {/* La solución muestra «Administración» solo al rol Administrador; aquí se ve siempre
-                para poder revisar la pantalla. */}
-            <MenuItem icon={<LockIcon />} name="Administración" path="/admin" isActive={isActive} />
+            {isAdmin && (
+              <MenuItem icon={<LockIcon />} name="Administración" path="/admin" isActive={isActive} />
+            )}
           </ul>
         </div>
       </div>

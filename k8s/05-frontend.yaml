@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: styt-one-frontend
+  namespace: styt-one
+  labels:
+    app: styt-one-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: styt-one-frontend
+  template:
+    metadata:
+      labels:
+        app: styt-one-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: crstytonedev2026.azurecr.io/styt-one-frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: styt-one-frontend
+  namespace: styt-one
+spec:
+  type: ClusterIP
+  selector:
+    app: styt-one-frontend
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http
