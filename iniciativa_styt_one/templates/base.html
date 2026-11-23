@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="csrf" content="{{ session.get('csrf','') }}">
+  <title>{% block title %}Asistente{% endblock %} · ST&T One</title>
+  <link rel="stylesheet" href="/static/style.css"><script src="/static/ui.js" defer></script>
+</head>
+{% macro icon(name) %}<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><use href="/static/icons.svg#{{ name }}"></use></svg>{% endmacro %}
+<body>
+{% if g.user %}
+<aside>
+  <a class="brand" href="/" aria-label="ST&T One, inicio"><img src="/static/logo.jpg" alt="ST&T"><span>One</span></a>
+  <nav aria-label="Navegación principal">
+    <a href="/" class="nav {{ 'active' if request.endpoint=='home' }}">{{ icon('home') }}Inicio</a>
+    <a href="/?consulta=perfil" class="nav">{{ icon('user') }}Mi perfil</a>
+    <a href="/?consulta=proyectos" class="nav">{{ icon('folder') }}Proyectos</a>
+    {% if g.user.role=='Administrador' %}<a href="/admin" class="nav {{ 'active' if request.endpoint=='admin' }}">{{ icon('settings') }}Administrar</a>{% endif %}
+  </nav>
+  <details class="account"><summary aria-label="Cuenta de {{ g.user.name }}"><span class="avatar">{{ g.user.name[0] }}{{ g.user.name.split()[-1][0] }}</span><span class="who">{{ g.user.name }}<small>{{ g.user.role }}</small></span>{{ icon('chevron') }}</summary>
+    <div class="account-menu"><b>{{ g.user.name }}</b><small>Entorno de demostración</small><form action="/salir" method="post"><input type="hidden" name="csrf" value="{{ session.csrf }}"><button>Cerrar sesión</button></form></div>
+  </details>
+</aside>
+{% endif %}
+<main class="{{ 'workspace' if g.user else 'entry' }}">{% block main %}{% endblock %}</main>
+</body></html>

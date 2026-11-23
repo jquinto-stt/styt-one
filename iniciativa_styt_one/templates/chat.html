@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block main %}
+<section class="chat">
+  <div id="welcome">
+    <div class="emblem" aria-hidden="true"><i></i></div>
+    <h1>¿Qué necesitas consultar?</h1>
+    <p>Conversa con <strong>ST&T One.</strong></p>
+  </div>
+  <div id="messages" role="log" aria-live="polite"></div>
+  <div class="composer">
+    <form id="ask">
+      <label class="sr" for="question">Pregunta al asistente</label>
+      <textarea rows="2" id="question" placeholder="Escribe tu pregunta…" maxlength="1000" required></textarea>
+      <button class="send" aria-label="Enviar">{{ icon('send') }}</button>
+    </form>
+    <div class="suggestions">
+      {% for label,q,symbol in [('Vacaciones','¿Cómo pido vacaciones?','book'),('Mi perfil','¿Qué datos hay en mi perfil?','user'),('Mis proyectos','¿En qué proyectos participo?','folder'),('Estado de proyecto','Resume el estado de mi proyecto','chart')] %}
+      <button class="chip" data-question="{{ q }}">{{ icon(symbol) }}{{ label }}</button>
+      {% endfor %}
+    </div>
+  </div>
+  <small class="demo">Entorno de demostración</small>
+</section>
+{% endblock %}

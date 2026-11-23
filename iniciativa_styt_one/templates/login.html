@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Acceso{% endblock %}
+{% block main %}
+<section class="login panel">
+  <img class="login-brand" src="/static/logo.jpg" alt="ST&T">
+  <h1>Bienvenido a ST&T One</h1>
+  <p>Ingresa con tu cuenta de demostración.</p>
+  <form method="post">
+    <input type="hidden" name="csrf" value="{{ session.csrf }}">
+    <label>Cuenta<select name="login"><option value="colaborador">Ana Torres · Colaborador</option><option value="lider">Luis Vega · Líder</option><option value="admin">Sara Mora · Administrador</option></select></label>
+    <label>Contraseña<input name="password" type="password" autocomplete="current-password" required aria-describedby="hint"></label>
+    <small id="hint">Contraseña de demo: <code>Demo-One-2026</code></small>
+    {% if error %}<p role="alert">{{ error }}</p>{% endif %}
+    <button class="primary">Iniciar sesión</button>
+  </form>
+</section>
+{% endblock %}

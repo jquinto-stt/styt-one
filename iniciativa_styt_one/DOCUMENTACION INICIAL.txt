@@ -1,0 +1,63 @@
+Para desarrollar **ST&T One con ayuda de una IA de programación**, te recomiendo crear una documentación base que funcione como fuente de verdad del proyecto.
+
+El documento principal será `PROJECT.md`. Su objetivo es que cualquier agente de programación comprenda qué es ST&T One, qué problema resuelve, qué funcionalidades tendrá, cuáles son los límites del MVP y hacia dónde evolucionará.
+
+Mantendremos la decisión que ya tomamos: **ST&T One será un agente corporativo inspirado inicialmente en Moveworks**, con la posibilidad de incorporar posteriormente capacidades similares a Glean.
+
+El documento distinguirá claramente entre los requisitos que has mencionado, las decisiones de diseño propuestas y los aspectos que todavía necesitan validación con ST&T. Así evitaremos que la IA invente funcionalidades o dé por confirmadas integraciones que aún no existen.
+
+**PROJECT.md — ST&T One**
+
+Documento principal de contexto, propósito, alcance funcional, seguridad, criterios de aceptación y evolución del producto.
+
+Descargar PROJECT.md
+
+## **¿Qué otros archivos necesitas?**
+
+Para que una IA de programación pueda trabajar de manera consistente, recomiendo esta estructura:
+
+**stt-one/**
+
+PROJECT.md
+
+Visión, propósito y alcance — ya creado
+
+AGENTS.md
+
+Reglas e instrucciones para agentes de programación
+
+docs/PRD.md
+
+Requisitos funcionales y criterios de aceptación
+
+docs/DATABASE.md
+
+Entidades, relaciones y permisos de datos
+
+docs/SECURITY.md
+
+Autenticación, privacidad y control de acceso
+
+docs/ROADMAP.md
+
+Fases de desarrollo y prioridades
+
+docs/DECISIONS.md
+
+Registro de decisiones de producto
+
+## **¿En qué orden los crearía?**
+
+| Orden | Archivo           | Importancia |
+| ----- | ----------------- | ----------- |
+| 1     | `PROJECT.md`      | Esencial    |
+| 2     | `PRD.md`          | Esencial    |
+| 3     | `AGENTS.md`       | Esencial    |
+| 4     | `SECURITY.md`     | Alta        |
+| 5     | `DATABASE.md`     | Alta        |
+| 6     | `ROADMAP.md`      | Media       |
+| 7     | `DECISIONS.md`    | Media       |
+
+**Mi recomendación:** antes de escribir código, completar los tres primeros archivos. `PROJECT.md` explica qué estamos construyendo, `PRD.md` especifica cómo debe funcionar y `AGENTS.md` establece cómo debe trabajar la IA sin desviarse del proyecto.
+
+Con esta documentación podemos comenzar el desarrollo de **ST&T One** de manera ordenada, sin convertir un MVP sencillo en una plataforma empresarial excesivamente compleja.
