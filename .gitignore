@@ -1,5 +1,8 @@
-# La carpeta app/ es efímera: es donde el operador genera el código durante el
-# curso. No forma parte del material versionado del repositorio.
+node_modules/
+dist/
+*.tsbuildinfo
 .env
-app/frontend
-app/backend
+.env.*
+!.env.example
+*.log
+.DS_Store
