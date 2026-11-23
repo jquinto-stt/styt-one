@@ -1,35 +1,22 @@
-# styt-one · Webi Todo
+# styt-one · ST&T One
 
-Monorepo con npm workspaces:
+- `iniciativa_styt_one/`: documentación de la solución ST&T One.
+- `app/`: monorepo de la aplicación.
+  - `app/frontend/`: SPA React + TypeScript + Vite.
+  - `app/backend/`: microservicio Express + TypeScript.
 
-| Carpeta | Contenido |
-|---|---|
-| `app/frontend/` | SPA React + Vite + TypeScript, estado con MobX |
-| `app/backend/` | Microservicio Express + TypeScript |
-
-## Requisitos
-
-- Node.js 22+
-
-## Uso
+## Frontend
 
 ```bash
+cd app/frontend
 npm install
-npm run dev     # levanta backend (:3000) y frontend (:5173)
-npm run build   # compila backend y frontend
+npm run dev     # http://localhost:5173
 ```
 
-Abre http://localhost:5173. El header muestra el branding "Webi Todo" y el indicador
-"Backend: Conectado" confirma que la SPA llega al microservicio.
+## Backend
 
-## Arquitectura
-
-- **Proxy sin CORS:** Vite reenvía `/api/*` a `http://localhost:3000` (configurable con
-  `API_TARGET`), así que el navegador siempre habla con el mismo origen.
-- **Estado:** `app/frontend/src/stores/RootStore.ts` es la raíz de MobX, provista con
-  `StoreProvider` y consumida con `useStore()`. Los slices posteriores añaden sus stores ahí.
-- **Tema base:** tokens de diseño (colores, tipografía, espaciado) como variables CSS en
-  `app/frontend/src/theme/theme.css`.
-- **Shell:** `AppShell` (header + área principal de una sola pantalla) en
-  `app/frontend/src/components/`.
-- **API:** `app/backend/src/app.ts` monta los routers; endpoint de salud en `GET /api/health`.
+```bash
+cd app/backend
+npm install
+npm run dev     # http://localhost:3001/api/health
+```

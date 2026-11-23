@@ -1,12 +1,12 @@
 import { Router } from 'express'
-import { config } from '../config.js'
 
 export const healthRouter = Router()
 
+// GET /api/health: confirma que el servicio está vivo.
 healthRouter.get('/', (_req, res) => {
   res.json({
     status: 'ok',
-    service: config.serviceName,
+    service: 'styt-one-backend',
     timestamp: new Date().toISOString(),
   })
 })

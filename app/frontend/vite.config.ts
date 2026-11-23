@@ -1,19 +1,33 @@
-import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import svgr from 'vite-plugin-svgr';
+import path from 'path';
 
-const API_TARGET = process.env.API_TARGET ?? 'http://localhost:3000'
-
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+  },
+  plugins: [
+    react(),
+    svgr({
+      svgrOptions: {
+        icon: true,
+        exportType: "named",
+        namedExport: "ReactComponent",
+      },
+    }),
+  ],
   server: {
     port: 5173,
-    // Las llamadas a /api se reenvían al microservicio: mismo origen, sin CORS.
+    // Todo lo que empiece por /api se reenvía al backend (sin CORS).
+    // El prefijo /api se conserva: el backend expone sus rutas bajo /api.
     proxy: {
       '/api': {
-        target: API_TARGET,
+        target: 'http://localhost:3001',
         changeOrigin: true,
       },
     },
   },
-})
+});

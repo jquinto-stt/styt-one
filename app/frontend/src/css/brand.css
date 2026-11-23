@@ -1,0 +1,49 @@
+/**
+ * Tema de marca ST&T One (oscuro).
+ *
+ * Se importa después de theme.css para sobrescribir los tokens del scaffolding:
+ * - brand: azul del logo de ST&T (degradado #0047FF → #0088FF).
+ * - accent: el extremo cian del degradado, para resaltes puntuales.
+ * - gray (tonos oscuros): grafito neutro, como en los conceptos visuales.
+ */
+@theme {
+  --color-brand-25: #f2f6ff;
+  --color-brand-50: #e6eeff;
+  --color-brand-100: #ccdcff;
+  --color-brand-200: #99baff;
+  --color-brand-300: #5c95ff;
+  --color-brand-400: #2f7bff;
+  --color-brand-500: #0a5cff;
+  --color-brand-600: #0047ff;
+  --color-brand-700: #0038cc;
+  --color-brand-800: #002da3;
+  --color-brand-900: #00247f;
+  --color-brand-950: #001652;
+
+  --color-accent-300: #66b8ff;
+  --color-accent-400: #33a1ff;
+  --color-accent-500: #0088ff;
+
+  --color-gray-700: #2e2f38;
+  --color-gray-800: #24252c;
+  --color-gray-900: #17181d;
+  --color-gray-950: #101115;
+  --color-gray-dark: #1c1d23;
+}
+
+@layer base {
+  body {
+    @apply dark:bg-gray-950 dark:text-gray-200;
+  }
+}
+
+/* Degradado del logo, reutilizable en acentos (iconos, bordes, botones). */
+@utility bg-brand-gradient {
+  background-image: linear-gradient(135deg, var(--color-accent-500), var(--color-brand-600));
+}
+
+@utility text-brand-gradient {
+  background-image: linear-gradient(90deg, var(--color-accent-400), var(--color-brand-400));
+  background-clip: text;
+  color: transparent;
+}

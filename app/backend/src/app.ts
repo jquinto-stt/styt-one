@@ -1,7 +1,7 @@
 import express from 'express'
 import { healthRouter } from './routes/health.js'
 
-/** Crea la app Express. Los slices posteriores montan aquí sus routers (tareas, auth...). */
+/** Construye la app Express: middlewares y rutas. No abre ningún puerto. */
 export function createApp() {
   const app = express()
 
@@ -10,6 +10,7 @@ export function createApp() {
 
   app.use('/api/health', healthRouter)
 
+  // Cualquier otra ruta bajo /api que no exista.
   app.use('/api', (_req, res) => {
     res.status(404).json({ error: 'Not found' })
   })

@@ -1,8 +1,7 @@
 import { createApp } from './app.js'
-import { config } from './config.js'
 
-const app = createApp()
+const port = Number(process.env.PORT ?? 3001)
 
-app.listen(config.port, () => {
-  console.log(`[${config.serviceName}] escuchando en http://localhost:${config.port}`)
+createApp().listen(port, () => {
+  console.log(`[backend] escuchando en http://localhost:${port}`)
 })
