@@ -39,15 +39,15 @@ export const BaseAppSidebar: React.FC<BaseAppSidebarProps> = observer(({
   return (
     <SidebarProvider collapsed={collapsed}>
       <aside
-        className={`flex flex-col px-5 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 transition-all duration-300 ease-in-out border-r border-gray-200 
+        className={`flex flex-col px-3 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 transition-all duration-300 ease-in-out border-r border-gray-200
           ${positionClasses}
-          ${showExpanded ? "w-[290px]" : "w-[90px]"}`}
+          ${showExpanded ? "w-[224px]" : "w-[76px]"}`}
         onMouseEnter={() => collapsed === undefined && !uiStore.isDesktopSidebarExpanded && uiStore.setSidebarHovered(true)}
         onMouseLeave={() => collapsed === undefined && uiStore.setSidebarHovered(false)}
       >
         {/* Logo section */}
         <div
-          className={`py-8 flex ${
+          className={`py-5 flex ${
             !showExpanded ? "xl:justify-center" : "justify-start"
           }`}
         >

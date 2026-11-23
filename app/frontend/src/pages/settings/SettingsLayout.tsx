@@ -20,7 +20,7 @@ export function SettingsLayout() {
     <>
       <PageHeader parent="Ajustes" title={current} />
       <WithSubNav nav={<SubNav title="Categorías" items={settingsSections} />}>
-        <div className="flex flex-col gap-6">
+        <div className="settings-content flex flex-col gap-5">
           <Outlet />
         </div>
       </WithSubNav>

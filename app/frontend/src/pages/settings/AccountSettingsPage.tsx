@@ -1,3 +1,4 @@
+import { useCurrentUser } from "@/app/DemoSession";
 import { Avatar } from "@/elements/ui/avatar";
 import { Button } from "@/elements/ui/button";
 import { Input } from "@/elements/form/input";
@@ -5,12 +6,14 @@ import { Label } from "@/elements/form/label";
 import { Select } from "@/elements/form/select";
 import { PencilIcon } from "@/icons";
 import { Panel } from "@/components/layout/Panel";
-import { currentUser } from "@/data/demo";
 
-const [firstName, ...rest] = currentUser.name.split(" ");
+
+
 
 /** Ajustes › Cuenta: datos de la cuenta (solo lectura en la demo). */
 export function AccountSettingsPage() {
+  const currentUser = useCurrentUser();
+  const [firstName, ...rest] = currentUser.name.split(" ");
   return (
     <>
       <Panel

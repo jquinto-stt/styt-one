@@ -1,23 +1,13 @@
+import { observer } from "mobx-react-lite";
+import { uiStore } from "@/stores";
 import { cn } from "@/utils";
 
-/** Isotipo de ST&T (los dos chevrones del logo, con su degradado azul). */
+/** Símbolo compacto para avatares, navegación móvil y barras contraídas. */
 export function LogoMark({ className }: { className?: string }) {
-  return <img src="/brand/stt-mark.svg" alt="" aria-hidden="true" className={cn("h-8 w-8", className)} />;
+  return <img src="/brand/stt-mark.svg" alt="ST&T" className={cn("size-8 shrink-0 object-contain", className)} />;
 }
 
-/** Isotipo + nombre de trabajo «ST&T One». */
-export function Logo({ className }: { className?: string }) {
-  return (
-    <span className={cn("flex items-center gap-2.5", className)} aria-label="ST&T One">
-      <LogoMark />
-      <span className="text-xl font-semibold tracking-tight text-gray-800 dark:text-white">
-        ST&amp;T <span className="text-brand-gradient">One</span>
-      </span>
-    </span>
-  );
-}
-
-/** Logo oficial completo (con lema), para pantallas de entrada. */
-export function LogoFull({ className }: { className?: string }) {
-  return <img src="/brand/stt-logo.png" alt="ST&T · Software, datos e inteligencia artificial" className={cn("h-auto w-48", className)} />;
-}
+/** Firma horizontal del producto con el dibujo de letras de la marca original. */
+export const Logo = observer(function Logo({ className }: { className?: string }) {
+  return <img src={uiStore.isDarkMode ? "/brand/stt-one-on-dark.svg" : "/brand/stt-one-on-light.svg"} width={1368} height={246} alt="ST&T One" className={cn("block h-auto w-36 max-w-full shrink-0 self-center object-contain", className)} />;
+});

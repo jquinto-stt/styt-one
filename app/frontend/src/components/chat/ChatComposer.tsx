@@ -24,7 +24,7 @@ export function ChatComposer({ placeholder = "Escribe tu pregunta…", suggestio
     <div className={cn("w-full", className)}>
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-xs focus-within:border-brand-400 dark:border-gray-800 dark:bg-gray-dark dark:focus-within:border-brand-500/60"
+        className="composer rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-xs focus-within:border-brand-400 dark:border-gray-800 dark:bg-gray-dark dark:focus-within:border-brand-500/60"
       >
         <label htmlFor="question" className="sr-only">Pregunta al asistente</label>
         <textarea
@@ -45,7 +45,7 @@ export function ChatComposer({ placeholder = "Escribe tu pregunta…", suggestio
           <button
             type="submit"
             aria-label="Enviar"
-            className="grid size-10 shrink-0 place-items-center rounded-full bg-brand-gradient text-white transition-opacity hover:opacity-90"
+            className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-gray-950 transition-opacity hover:opacity-90"
           >
             <PaperPlaneIcon className="size-5" />
           </button>

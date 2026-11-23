@@ -13,7 +13,7 @@ export function PageHeader({ title, parent, description, actions }: PageHeaderPr
   return (
     <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <h1 className="text-2xl font-medium text-gray-800 dark:text-white">
+        <h1 className="text-xl font-medium tracking-tight text-gray-800 dark:text-white">
           {parent && <span className="text-gray-500 dark:text-gray-400">{parent} / </span>}
           {title}
         </h1>

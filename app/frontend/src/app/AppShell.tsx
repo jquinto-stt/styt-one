@@ -1,10 +1,10 @@
-import { Link, Outlet } from "react-router";
-import { BaseAppShell, BaseAppHeader, ToggleAppSidebar } from "@/shell";
+import { Link, NavLink, Outlet } from "react-router";
+import { BaseAppShell, BaseAppHeader, ThemeToggleButton, ToggleAppSidebar } from "@/shell";
 import { AppSidebar } from "@/app/AppSidebar";
 import { LogoMark } from "@/components/brand/Logo";
 import { UserMenu } from "@/components/layout/UserMenu";
 import { DemoNotice } from "@/components/layout/DemoNotice";
-import { PlusIcon } from "@/icons";
+import { ChatIcon, DocsIcon, FolderIcon, PlugInIcon, PlusIcon } from "@/icons";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // HEADER
@@ -15,6 +15,7 @@ const AppHeader = () => (
     leftContent={
       <div className="flex flex-1 items-center gap-4">
         <ToggleAppSidebar />
+        <ThemeToggleButton />
         <label className="relative hidden max-w-md flex-1 lg:block">
           <span className="sr-only">Buscar</span>
           <input
@@ -48,7 +49,7 @@ const AppHeader = () => (
 /** Shell autenticado: barra lateral + header + página activa + pie. */
 export const AppShell = () => (
   <BaseAppShell sidebar={<AppSidebar />} header={<AppHeader />}>
-    <div className="flex min-h-[calc(100vh-8rem)] flex-col">
+    <div className="flex pb-16 sm:pb-0 min-h-[calc(100vh-8rem)] flex-col">
       <div className="flex-1">
         <Outlet />
       </div>
@@ -56,6 +57,18 @@ export const AppShell = () => (
         <span>© 2026 ST&amp;T Ltda. · ST&amp;T One es un nombre de trabajo.</span>
         <span>Datos ficticios · Sin conexión a sistemas productivos</span>
       </footer>
+      <nav aria-label="Accesos rápidos" className="mobile-dock sm:hidden">
+        {[
+          { to: "/", label: "Inicio", Icon: ChatIcon },
+          { to: "/biblioteca", label: "Biblioteca", Icon: DocsIcon },
+          { to: "/carpetas", label: "Carpetas", Icon: FolderIcon },
+          { to: "/integraciones", label: "Integraciones", Icon: PlugInIcon },
+        ].map(({ to, label, Icon }) => (
+          <NavLink key={to} to={to} end aria-label={label}>
+            <Icon className="size-5" /><span>{label}</span>
+          </NavLink>
+        ))}
+      </nav>
     </div>
   </BaseAppShell>
 );

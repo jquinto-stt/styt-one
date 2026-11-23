@@ -1,13 +1,15 @@
+import { useCurrentUser } from "@/app/DemoSession";
 import { Link } from "react-router";
 import { Avatar } from "@/elements/ui/avatar";
 import { Badge } from "@/elements/ui/badge";
 import { Alert } from "@/elements/ui/alert";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Panel } from "@/components/layout/Panel";
-import { currentUser, demoProjects } from "@/data/demo";
+import { demoProjects } from "@/data/demo";
 
 /** Mi perfil: campos mínimos autorizados del usuario autenticado (MVP-04). */
 export function ProfilePage() {
+  const currentUser = useCurrentUser();
   const fields = [
     ["Nombre", currentUser.name],
     ["Correo corporativo", currentUser.email],

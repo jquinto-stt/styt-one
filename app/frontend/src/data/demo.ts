@@ -23,9 +23,6 @@ export const demoUsers: DemoUser[] = [
   { login: "admin", name: "Sara Mora", initials: "SM", email: "sara.mora@demo.stt", role: "Administrador", area: "Operaciones" },
 ];
 
-/** Usuario que muestran las pantallas mientras no hay sesión real. */
-export const currentUser = demoUsers[0];
-
 export interface DemoProject {
   id: string;
   name: string;

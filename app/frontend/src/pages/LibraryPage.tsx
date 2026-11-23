@@ -22,10 +22,10 @@ export function LibraryPage() {
           />
         }
       >
-        <ul className="overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800">
+        <ul className="overflow-hidden rounded-xl bg-white dark:bg-gray-dark border border-gray-200 dark:border-gray-800">
           {items.map((p) => (
             <li key={p.topic} className="border-b border-gray-200 last:border-b-0 dark:border-gray-800">
-              <Link to={`/politicas/${p.topic}`} className="block px-5 py-4 transition-colors hover:bg-gray-50 dark:hover:bg-white/[0.03]">
+              <Link to={`/politicas/${p.topic}`} className="block px-5 py-4 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700 dark:focus-visible:bg-gray-700">
                 <div className="flex flex-wrap items-center gap-2">
                   <h2 className="text-base font-medium text-gray-800 dark:text-white">{p.title}</h2>
                   <Badge size="xs" color="light">v{p.version}</Badge>

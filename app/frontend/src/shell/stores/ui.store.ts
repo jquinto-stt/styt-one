@@ -15,12 +15,13 @@ export type Theme = 'light' | 'dark';
 export interface UIPreferences {
   theme: Theme;
   sidebarExpanded: boolean;
+  reduceMotion?: boolean;
 }
 
 const STORAGE_KEY = 'webforge-ui-preferences';
 
 const DEFAULT_PREFERENCES: UIPreferences = {
-  theme: 'light',
+  theme: typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
   sidebarExpanded: true,
 };
 
@@ -31,6 +32,14 @@ const DEFAULT_PREFERENCES: UIPreferences = {
 class UIStore {
   // Theme
   theme: Theme = DEFAULT_PREFERENCES.theme;
+
+  reduceMotion = false;
+
+  setReduceMotion(value: boolean): void {
+    this.reduceMotion = value;
+    document.documentElement.classList.toggle("reduce-motion", value);
+    this.saveToStorage();
+  }
 
   // Sidebar state
   sidebarExpanded: boolean = DEFAULT_PREFERENCES.sidebarExpanded;
@@ -85,6 +94,7 @@ class UIStore {
     return {
       theme: this.theme,
       sidebarExpanded: this.sidebarExpanded,
+      reduceMotion: this.reduceMotion,
     };
   }
 
@@ -140,6 +150,7 @@ class UIStore {
   // ═══════════════════════════════════════════════════════════════════════════
 
   reset(): void {
+    this.setReduceMotion(false);
     this.theme = DEFAULT_PREFERENCES.theme;
     this.sidebarExpanded = DEFAULT_PREFERENCES.sidebarExpanded;
     this.sidebarMobileOpen = false;
@@ -207,7 +218,7 @@ class UIStore {
         if (e.key === STORAGE_KEY && e.newValue) {
           try {
             const parsed: Partial<UIPreferences> = JSON.parse(e.newValue);
-            if (parsed.theme && parsed.theme !== this.theme) {
+            if ((parsed.theme === 'light' || parsed.theme === 'dark') && parsed.theme !== this.theme) {
               this.theme = parsed.theme;
               this.applyThemeToDOM();
             }
@@ -230,6 +241,8 @@ class UIStore {
         if (parsed.theme === 'light' || parsed.theme === 'dark') {
           this.theme = parsed.theme;
         }
+        this.reduceMotion = parsed.reduceMotion === true;
+        document.documentElement.classList.toggle("reduce-motion", this.reduceMotion);
         if (typeof parsed.sidebarExpanded === 'boolean') {
           this.sidebarExpanded = parsed.sidebarExpanded;
         }

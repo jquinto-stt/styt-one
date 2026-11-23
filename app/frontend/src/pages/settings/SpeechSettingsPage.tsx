@@ -39,12 +39,12 @@ export function SpeechSettingsPage() {
 
         <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center">
           <Button variant="outline" onClick={() => setTesting(!testing)}>{testing ? "Detener prueba" : "Probar micrófono"}</Button>
-          <div className="flex h-14 flex-1 items-center gap-1" aria-hidden="true">
+          <div className="voice-wave flex h-14 min-w-0 flex-1 items-center gap-1" data-testing={testing} aria-hidden="true">
             {wave.map((h, i) => (
               <span
                 key={i}
-                className={`w-1 rounded-full ${testing ? "bg-accent-500" : "bg-gray-300 dark:bg-gray-700"}`}
-                style={{ height: `${testing ? h : 20}%` }}
+                className={`flex-1 transition-transform rounded-full ${testing ? "bg-brand-400" : "bg-brand-800"}`}
+                style={{ height: `${testing ? h : h * 0.62}%`, animationDelay: `${-i * 0.13}s` }}
               />
             ))}
           </div>

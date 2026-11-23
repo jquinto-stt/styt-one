@@ -1,13 +1,15 @@
+import { useCurrentUser } from "@/app/DemoSession";
 import { Link } from "react-router";
 import { Badge } from "@/elements/ui/badge";
 import { Button } from "@/elements/ui/button";
 import { Table, TableHeader, TableBody, TableRow, TableCell } from "@/elements/ui/table";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Panel } from "@/components/layout/Panel";
-import { currentUser, demoProjects } from "@/data/demo";
+import { demoProjects } from "@/data/demo";
 
 /** Catálogo de proyectos (MVP-05): solo se puede abrir lo que el usuario tiene autorizado. */
 export function ProjectsPage() {
+  const currentUser = useCurrentUser();
   return (
     <>
       <PageHeader title="Proyectos" description="Catálogo con responsable, estado y fecha documentada." />

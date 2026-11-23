@@ -1,8 +1,9 @@
+import { useCurrentUser, useDemoSession } from "@/app/DemoSession";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { Avatar } from "@/elements/ui/avatar";
 import { ChevronDownIcon, UserCircleIcon, LockIcon } from "@/icons";
-import { currentUser } from "@/data/demo";
+
 import { DemoNotice } from "@/components/layout/DemoNotice";
 
 const item =
@@ -10,6 +11,8 @@ const item =
 
 /** Menú de cuenta del header: nombre, rol, accesos y «Cerrar sesión» (solo visual). */
 export function UserMenu() {
+  const currentUser = useCurrentUser();
+  const { signOut } = useDemoSession();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -47,7 +50,7 @@ export function UserMenu() {
             <li><Link to="/perfil" className={item} onClick={() => setOpen(false)}><UserCircleIcon className="size-5" />Mi perfil</Link></li>
             <li><Link to="/ajustes/cuenta" className={item} onClick={() => setOpen(false)}><LockIcon className="size-5" />Ajustes</Link></li>
           </ul>
-          <Link to="/acceso" className={`${item} mt-2`} onClick={() => setOpen(false)}>
+          <Link replace to="/bienvenida" className={`${item} mt-2`} onClick={signOut}>
             Cerrar sesión
           </Link>
         </div>

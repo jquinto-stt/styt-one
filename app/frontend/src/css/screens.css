@@ -1,0 +1,109 @@
+.public-landing {
+  background: radial-gradient(ellipse at 10% 100%, #142d59, transparent 55%),
+    linear-gradient(124deg, #080e1c 18%, #102348 56%, #091222 85%);
+}
+.public-access {
+  background: radial-gradient(ellipse at top right, #173b76, transparent 52%),
+    radial-gradient(ellipse at bottom left, #172c58, transparent 46%), #0a1221;
+}
+.assistant-accent {
+  color: #99baff;
+  background: linear-gradient(95deg, var(--color-brand-200), var(--color-accent-300), var(--color-brand-300));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.composer {
+  background: linear-gradient(#1c1c26, #1c1c26) padding-box,
+    linear-gradient(110deg, #434653, #39394b 60%, #5d6984 84%, #375da0) border-box;
+  border-color: transparent;
+  box-shadow: 0 12px 36px #0002;
+}
+.composer:focus-within { outline: 2px solid var(--color-brand-300); outline-offset: 2px; }
+.connector-mark { background: var(--color-brand-700); }
+:nth-child(3n + 2) > div > .connector-mark, li:nth-child(3n + 2) > .connector-mark { background: #1e56a0; }
+:nth-child(3n) > div > .connector-mark, li:nth-child(3n) > .connector-mark { background: var(--color-brand-900); }
+.mobile-dock {
+  position: fixed;
+  z-index: 30;
+  inset: auto 0 0;
+  background: #18191ff5;
+  border-top: 1px solid #303139;
+  padding: .35rem .5rem max(.35rem, env(safe-area-inset-bottom));
+}
+@media (max-width: 639px) {
+  .mobile-dock { display: flex; justify-content: space-around; }
+  .mobile-dock a { display: grid; justify-items: center; gap: .15rem; padding: .35rem; font-size: .69rem; color: #a8aab8; }
+  .mobile-dock a[aria-current="page"] { color: var(--color-brand-200); }
+  .composer button { min-height: 2.25rem; }
+}
+dialog.styt-dialog {
+  margin: auto;
+  width: min(30rem, calc(100% - 2rem));
+  padding: 1.5rem;
+  color: #fafafa;
+  background: #202129;
+  border: 1px solid #393a45;
+  border-radius: 1rem;
+  box-shadow: 0 24px 80px #0008;
+}
+.styt-dialog::backdrop { background: #090a10a6; backdrop-filter: blur(5px); }
+.help-cover { background: radial-gradient(ellipse at center, #224a87, transparent 70%), linear-gradient(135deg, #102041, #173466); }
+.assistant-signal {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(100%, 20rem);
+  aspect-ratio: 320 / 88;
+  color: #9fb6d5;
+}
+.dark .assistant-signal { color: #344358; }
+.assistant-signal > svg { width: 100%; height: auto; }
+.signal-core {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 21%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 15%, #fff, #e5efff);
+  border: 1px solid #c0d3f0;
+  box-shadow: 0 0 30px #2470ff20;
+}
+.dark .signal-core {
+  background: radial-gradient(circle at 35% 15%, #25324b, #101822);
+  border-color: #394b68;
+}
+.signal-core img { width: 64%; height: auto; }
+.signal-pulse { stroke-dasharray: 12 100; stroke-dashoffset: -48; }
+@media (prefers-reduced-motion: no-preference) {
+  :root:not(.reduce-motion) .signal-pulse { animation: signal-travel 2.2s ease-out 2 both; }
+  @keyframes signal-travel {
+    from { stroke-dashoffset: 12; opacity: 0; }
+    22% { opacity: 1; }
+    to { stroke-dashoffset: -98; opacity: 0; }
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .voice-wave[data-testing="true"] span { animation: microphone-level .85s ease-in-out infinite alternate; }
+  @keyframes microphone-level { to { transform: scaleY(.45); } }
+}
+
+:root { color-scheme: light; }
+:root.dark { color-scheme: dark; }
+:root:not(.dark) .public-landing {
+  background: radial-gradient(ellipse at bottom left, #cadfff, transparent 58%),
+    linear-gradient(125deg, #f7faff, #e2edff 60%, #ffffff);
+}
+:root:not(.dark) .public-access {
+  background: radial-gradient(ellipse at top right, #c9ddff, transparent 52%), #f6f9ff;
+}
+:root:not(.dark) .composer {
+  background: linear-gradient(white, #fbfdff) padding-box,
+    linear-gradient(105deg, #bdcbd5, #9ab9e8) border-box;
+  box-shadow: 0 8px 24px #192e4110;
+}
+:root:not(.dark) .assistant-accent { background-image: linear-gradient(95deg, var(--color-brand-800), var(--color-brand-700), var(--color-brand-600)); }
+:root:not(.dark) .mobile-dock { background: #fffffffa; border-color: #d6dfe3; }
+:root:not(.dark) .mobile-dock a { color: #506170; }
+:root:not(.dark) .mobile-dock a[aria-current="page"] { color: var(--color-brand-700); }
+:root:not(.dark) .styt-dialog { background: white; color: #172a34; border-color: #ced9df; }

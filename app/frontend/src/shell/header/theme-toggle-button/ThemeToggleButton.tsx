@@ -27,6 +27,9 @@ export const ThemeToggleButton: React.FC<ThemeToggleButtonProps> = observer(
   ({ variant = "default" }) => {
     return (
       <button
+        type="button"
+        aria-label={uiStore.isDarkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+        title={uiStore.isDarkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
         onClick={() => uiStore.toggleTheme()}
         className={variantClasses[variant]}
       >

@@ -17,7 +17,7 @@ interface SubNavProps {
 
 const itemClass = (active: boolean) =>
   cn(
-    "block w-full rounded-lg px-3 py-2 text-left text-theme-sm transition-colors",
+    "block w-full rounded-full px-3 py-1.5 text-left text-theme-sm transition-colors",
     active
       ? "bg-gray-100 font-medium text-gray-800 dark:bg-white/[0.06] dark:text-white"
       : "text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200",
@@ -26,7 +26,7 @@ const itemClass = (active: boolean) =>
 /** Columna de categorías (Ajustes, Biblioteca, Integraciones…), como en los conceptos. */
 export function SubNav({ title, items, onSelect }: SubNavProps) {
   return (
-    <nav aria-label={title} className="lg:w-56 lg:shrink-0">
+    <nav aria-label={title} className="min-w-0 lg:w-44 lg:shrink-0 lg:border-r lg:border-gray-800 lg:pr-3">
       <p className="mb-3 px-3 text-theme-xs uppercase tracking-wide text-gray-400">{title}</p>
       <ul className="flex gap-1 overflow-x-auto lg:flex-col">
         {items.map((item) => (
@@ -36,7 +36,7 @@ export function SubNav({ title, items, onSelect }: SubNavProps) {
                 {item.label}
               </NavLink>
             ) : (
-              <button type="button" onClick={() => onSelect?.(item.label)} className={itemClass(!!item.active)}>
+              <button type="button" aria-pressed={!!item.active} onClick={() => onSelect?.(item.label)} className={itemClass(!!item.active)}>
                 {item.label}
               </button>
             )}

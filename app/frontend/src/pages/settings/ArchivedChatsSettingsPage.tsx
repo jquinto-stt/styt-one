@@ -15,7 +15,7 @@ export function ArchivedChatsSettingsPage() {
       <Panel title="Chats archivados" bodyClassName="p-0">
         <ul>
           {demoArchivedChats.map((c) => (
-            <li key={c.title} className="flex items-center justify-between gap-4 border-b border-gray-200 px-5 py-4 last:border-b-0 dark:border-gray-800">
+            <li key={c.title} className="flex flex-wrap items-center justify-between gap-4 border-b border-gray-200 px-5 py-4 last:border-b-0 dark:border-gray-800">
               <div>
                 <p className="text-theme-sm font-medium text-gray-800 dark:text-white">{c.title}</p>
                 <p className="text-theme-xs text-gray-400">Archivado el {c.date}</p>

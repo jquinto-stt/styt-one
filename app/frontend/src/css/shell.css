@@ -16,7 +16,7 @@
 }
 
 @utility menu-item-active {
-  @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
+  @apply bg-brand-50 text-brand-500 dark:bg-white/[0.08] dark:text-white;
 }
 
 @utility menu-item-inactive {
@@ -28,12 +28,12 @@
 }
 
 @utility menu-item-icon-active {
-  @apply text-brand-500 dark:text-brand-400;
+  @apply text-brand-500 dark:text-gray-200;
 }
 
 @utility menu-item-icon-size {
   & svg {
-    @apply !size-6;
+    @apply !size-5;
   }
 }
 
@@ -46,7 +46,7 @@
 }
 
 @utility menu-item-arrow-active {
-  @apply rotate-180 text-brand-500 dark:text-brand-400;
+  @apply rotate-180 text-brand-500 dark:text-gray-200;
 }
 
 @utility menu-item-arrow-inactive {
@@ -63,7 +63,7 @@
 }
 
 @utility menu-dropdown-item-active {
-  @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
+  @apply bg-brand-50 text-brand-500 dark:bg-white/[0.08] dark:text-white;
 }
 
 @utility menu-dropdown-item-inactive {

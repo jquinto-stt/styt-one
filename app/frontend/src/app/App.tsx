@@ -1,4 +1,6 @@
-import { Routes, Route, Navigate } from "react-router";
+import { useDemoSession } from "@/app/DemoSession";
+import { ThemeToggleButton } from "@/shell";
+import { Routes, Route, Navigate, Link } from "react-router";
 import { AppShell } from "@/app/AppShell";
 
 import { LandingPage } from "@/pages/LandingPage";
@@ -30,9 +32,10 @@ import { ConnectedAppsSettingsPage } from "@/pages/settings/ConnectedAppsSetting
  * - Standalone: bienvenida, acceso y páginas de error.
  */
 export default function App() {
+  const { user } = useDemoSession();
   return (
     <Routes>
-      <Route element={<AppShell />}>
+      <Route element={user ? <AppShell /> : <Navigate to="/bienvenida" replace />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/conversacion" element={<ConversationPage />} />
         <Route path="/perfil" element={<ProfilePage />} />
@@ -42,7 +45,7 @@ export default function App() {
         <Route path="/biblioteca" element={<LibraryPage />} />
         <Route path="/carpetas" element={<FoldersPage />} />
         <Route path="/integraciones" element={<IntegrationsPage />} />
-        <Route path="/ayuda" element={<HelpPage />} />
+        {user && <Route path="/ayuda" element={<HelpPage />} />}
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/ajustes" element={<SettingsLayout />}>
           <Route index element={<Navigate to="cuenta" replace />} />
@@ -55,8 +58,14 @@ export default function App() {
         </Route>
       </Route>
 
+      {!user && <Route path="/ayuda" element={
+        <main className="mx-auto max-w-5xl p-5">
+          <header className="mb-4 flex items-center justify-between"><Link to="/bienvenida">← Bienvenida</Link><ThemeToggleButton /></header>
+          <HelpPage />
+        </main>
+      } />}
       <Route path="/bienvenida" element={<LandingPage />} />
-      <Route path="/acceso" element={<LoginPage />} />
+      <Route path="/acceso" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
       <Route
         path="/sin-acceso"
         element={<ErrorPage code="403" title="No tienes acceso a este recurso" message="El proyecto solicitado solo está disponible para sus miembros." />}
