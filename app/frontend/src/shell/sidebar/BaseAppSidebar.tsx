@@ -1,3 +1,5 @@
+import { ToggleAppSidebar } from "@/shell/header/ToggleAppSidebar";
+import { UserMenu } from "@/components/layout/UserMenu";
 import { ReactNode } from "react";
 import { observer } from 'mobx-react-lite';
 import { uiStore } from "@/stores";
@@ -34,7 +36,7 @@ export const BaseAppSidebar: React.FC<BaseAppSidebarProps> = observer(({
 
   const positionClasses = contained
     ? "relative h-full"
-    : `fixed top-0 left-0 h-screen z-50 ${uiStore.sidebarMobileOpen ? "translate-x-0" : "-translate-x-full"} xl:translate-x-0`;
+    : `fixed top-0 left-0 h-screen z-50 ${uiStore.sidebarMobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`;
 
   return (
     <SidebarProvider collapsed={collapsed}>
@@ -47,17 +49,18 @@ export const BaseAppSidebar: React.FC<BaseAppSidebarProps> = observer(({
       >
         {/* Logo section */}
         <div
-          className={`py-5 flex ${
-            !showExpanded ? "xl:justify-center" : "justify-start"
+          className={`h-16 shrink-0 items-center flex ${
+            !showExpanded ? "lg:justify-center" : "justify-between"
           }`}
         >
-          {showExpanded ? logo : logoCollapsed}
+          {showExpanded ? <>{logo}<ToggleAppSidebar /></> : <button type="button" aria-label="Expandir barra lateral" onClick={() => uiStore.toggleSidebar()}>{logoCollapsed}</button>}
         </div>
 
         {/* Content section */}
         <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar flex-1">
           {children}
         </div>
+        <div className="hidden border-t border-gray-200 py-3 dark:border-gray-800 lg:block"><UserMenu alignLeft upward compact={!showExpanded} /></div>
       </aside>
     </SidebarProvider>
   );

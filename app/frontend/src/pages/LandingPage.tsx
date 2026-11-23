@@ -19,10 +19,7 @@ export function LandingPage() {
 
       <header className="relative mx-auto flex max-w-6xl items-center justify-between border-b border-gray-300 dark:border-white/10 px-6 py-5">
         <Logo className="w-36" />
-        <div className="flex items-center gap-2"><ThemeToggleButton />
-        <Link to="/acceso">
-          <Button variant="outline" size="sm">Iniciar sesión</Button>
-        </Link></div>
+        <Link to="/acceso" className="bar-control">Iniciar sesión</Link>
       </header>
 
       <section className="relative mx-auto max-w-4xl px-6 pt-[12vh] text-center">
@@ -50,6 +47,7 @@ export function LandingPage() {
           </article>
         ))}
       </section>
+      <footer className="relative mx-auto flex max-w-6xl justify-end px-6 pb-5"><ThemeToggleButton /></footer>
     </main>
   );
 }

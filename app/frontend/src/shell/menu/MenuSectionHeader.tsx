@@ -17,7 +17,7 @@ export const MenuSectionHeader: React.FC<MenuSectionHeaderProps> = observer(({ t
   return (
     <h2
       className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
-        !showExpanded ? 'xl:justify-center' : 'justify-start'
+        !showExpanded ? 'lg:justify-center' : 'justify-start'
       }`}
     >
       {showExpanded ? title : shellIcons.sectionCollapsed}

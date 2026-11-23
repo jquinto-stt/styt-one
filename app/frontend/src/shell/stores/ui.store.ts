@@ -195,7 +195,7 @@ class UIStore {
     if (typeof window !== 'undefined') {
       this._resizeHandler = () => {
         const wasMobile = this._isMobile;
-        this._isMobile = window.innerWidth < 1280;
+        this._isMobile = window.innerWidth < 1024;
         
         // Close mobile sidebar when switching to desktop
         if (wasMobile && !this._isMobile) {

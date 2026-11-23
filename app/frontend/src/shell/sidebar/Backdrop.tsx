@@ -9,7 +9,7 @@ export const Backdrop: React.FC = observer(() => {
 
   return (
     <div
-      className="fixed inset-0 z-40 bg-gray-900/50 xl:hidden"
+      className="fixed inset-0 z-40 bg-gray-900/50 lg:hidden"
       onClick={() => uiStore.closeMobileSidebar()}
     />
   );

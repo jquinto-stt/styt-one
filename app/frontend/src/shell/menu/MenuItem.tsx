@@ -94,7 +94,7 @@ export const MenuItem: React.FC<MenuItemProps> = observer(({
 
   const itemClasses = `menu-item group ${
     active ? 'menu-item-active' : 'menu-item-inactive'
-  } ${!showExpanded ? 'xl:justify-center' : 'xl:justify-start'}`;
+  } ${!showExpanded ? 'lg:justify-center' : 'lg:justify-start'}`;
 
   const itemRef = useRef<HTMLLIElement>(null);
 

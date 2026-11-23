@@ -18,12 +18,12 @@ export const BaseAppShell: React.FC<BaseAppShellProps> = observer(({
   children,
 }) => {
   return (
-    <div className="min-h-screen xl:flex">
+    <div className="min-h-screen lg:flex">
       {sidebar}
       <Backdrop />
       <div
         className={`min-w-0 flex-1 transition-all duration-300 ease-in-out ${
-          uiStore.isSidebarVisible ? "xl:ml-[224px]" : "xl:ml-[76px]"
+          uiStore.isSidebarVisible ? "lg:ml-[224px]" : "lg:ml-[76px]"
         }`}
       >
         {header}
